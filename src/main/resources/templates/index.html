@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Home</title>
+    <th:block th:insert="base :: header"></th:block>
+</head>
+<body>
+<div th:replace="base :: nav"></div>
+
+<div class="container bg-light pl-5 pr-5">
+
+    <h3 class="p-4">HarrisonCollege</h3>
+    <hr/>
+
+    <h5>Department</h5>
+    <div th:each="department : ${departments}">
+        <span th:text="${department.name}"></span> &nbsp;
+    </div>
+    <div class="space"></div>
+    <h5>Class</h5>
+    <div th:each="class : ${classes}">
+        <span th:text="${class.crnNumber}"></span>&nbsp;
+        <span th:text="${class.time}"></span>&nbsp;
+        <span th:text="${class.courseNumber}"></span>&nbsp;
+        <span th:text="${class.subjectCode}"></span>&nbsp;
+
+        <!--elroll <span th:text="${@{/enroll/{id} (id=${class.id})}}"></span>-->
+        <a th:href="@{/enroll/{id}(id=${class.id})}"> Enroll </a>
+        <a th:href="@{/drop/{id}(id=${class.id})}"> Erop </a>
+
+    </div>
+    <div class="space"></div>
+    <h5>Classroom</h5>
+    <div th:each="classroom : ${classrooms}">
+        <span th:text="${classroom.buildingName}"></span> &nbsp;
+        <span th:text="${classroom.roomNumber}"></span> &nbsp;
+        <span th:text="${classroom.maxCapacity}"></span>&nbsp;
+    </div>
+    <div class="space"></div>
+    <div th:each="course : ${courses}">
+                <div class="col-sm">
+                    <div class="space"></div>
+                    <div>
+                        <span sec:authorize="hasAuthority('USER')">
+                            <a class="btn btn-info" th:href="@{/update/{id}(id=${message.id})}">Update</a>
+                        </span>
+                        <!--<span th:if="${#authentication.roles } == ${message.username}">-->
+                            <!--<a class="btn btn-info" th:href="@{/update/{id}(id=${message.id})}">Update</a>-->
+                        <!--</span>-->
+                        <span sec:authorize="hasAuthority('ADMIN')">
+                            <a class="btn btn-info" th:href="@{/update/{id}(id=${message.id})}">Update</a>
+                        </span>
+
+                        <a class="btn btn-info" th:href="@{/detail/{id}(id=${message.id})}">View</a>
+                        <span sec:authorize="hasAuthority('ADMIN')"><a class="btn btn-info"
+                                                                      th:href="@{/delete/{id}(id=${message.id})}">Delete</a></span>
+                        <div class="space"></div>
+                        <!--<a class="text-secondary" th:href="@{/delete/{id}(id=${message.id})}">Delete</a>-->
+                    </div>
+                </div>
+            </div><!--end div row-->
+
+
+    <a href="/adddepartment"> add department </a>
+    <a href="/addclass"> add class </a>
+    <a href="/addclassroom"> add classroom </a>
+    <a href="/studentschedule"> view schedule </a>
+
+        </div>
+        <div class="emptySpace"></div>
+    </div>
+
+    <footer th:replace="base :: footer"></footer>
+    <br/>
+</div>
+<div class="space"></div>
+<div th:replace="base :: scripts"></div>
+</body>
+</html>
+
+
+
+
+
